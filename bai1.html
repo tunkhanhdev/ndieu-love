@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Tặng Ngọc Diệu</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #e68a9e; /* Hồng tối hơn */
+      overflow: hidden;
+      font-family: 'Arial', sans-serif;
+    }
+
+    /* Hiệu ứng trái tim */
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #ff4d88;
+      transform: rotate(45deg);
+      animation: float 5s linear infinite;
+      opacity: 0.8;
+    }
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #ff4d88;
+      border-radius: 50%;
+    }
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { left: -10px; top: 0; }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) scale(0.5) rotate(45deg); opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1.2) rotate(45deg); opacity: 0; }
+    }
+
+    /* Hộp quà */
+    #giftBox {
+      width: 120px;
+      height: 120px;
+      background: #ff4da6;
+      border-radius: 10px;
+      position: relative;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(255,0,150,0.8);
+      transition: transform 0.3s;
+      z-index: 2;
+    }
+    #giftBox:hover { transform: scale(1.1); }
+    #giftBox::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 120px;
+      background: white;
+    }
+    #giftBox::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      width: 120px;
+      height: 30px;
+      background: white;
+    }
+
+    /* Khung chữ */
+    #message {
+      display: none;
+      text-align: center;
+      font-size: 22px;
+      color: #fff;
+      text-shadow: 0 0 10px #fff, 0 0 20px #ff99cc, 0 0 30px #ff66aa;
+      padding: 20px;
+      max-width: 80%;
+      background: rgba(255,0,100,0.3);
+      border-radius: 15px;
+      z-index: 2;
+    }
+
+    /* Chữ chạy */
+    .floating-text {
+      position: absolute;
+      white-space: nowrap;
+      font-size: 24px;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 0 0 10px #fff, 0 0 20px #ff99cc, 0 0 30px #ff66aa;
+      opacity: 0.9;
+      animation: move linear infinite;
+    }
+    @keyframes move {
+      from { transform: translateX(100vw); }
+      to { transform: translateX(-100vw); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hộp quà -->
+  <div id="giftBox"></div>
+
+  <!-- Tin nhắn -->
+  <div id="message">
+    <p>
+      Diệu ơi mình là <b>TunKhanh</b> đây 💖<br>
+      Lúc trước mình tưởng chỉ rela đùa vui thôi nhưng dần mình yêu bạn mất rồi 🥺<br>
+      Mình không biết bạn có thích mình không nhưng mình mong bạn cho mình cơ hội được yêu bạn >< 💕
+    </p>
+  </div>
+
+  <script>
+    const giftBox = document.getElementById("giftBox");
+    const message = document.getElementById("message");
+    const body = document.body;
+
+    // Tạo tim bay
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (3 + Math.random() * 2) + "s";
+      body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+    setInterval(createHeart, 200);
+
+    // Khi click hộp quà
+    giftBox.onclick = () => {
+      giftBox.style.display = "none";
+      message.style.display = "block";
+
+      // Sau 3s thì tắt message và bắt đầu spam chữ
+      setTimeout(() => {
+        message.style.display = "none";
+        startFloatingText();
+      }, 3000);
+    };
+
+    // Hiện chữ bay random
+    function startFloatingText() {
+      const texts = [
+        "❤️ tunkhanh lov ndieu ❤️",
+        "❤️ ndieu xink gai dthw ❤️"
+      ];
+      setInterval(() => {
+        const span = document.createElement("div");
+        span.className = "floating-text";
+        span.textContent = texts[Math.floor(Math.random() * texts.length)];
+        span.style.top = Math.random() * 100 + "vh";
+        span.style.left = "100vw";
+        span.style.fontSize = (20 + Math.random() * 10) + "px";
+        span.style.animationDuration = (2 + Math.random() * 2) + "s";
+        body.appendChild(span);
+        setTimeout(() => span.remove(), 6000);
+      }, 300); // spam nhanh
+    }
+  </script>
+</body>
+</html>
